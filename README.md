@@ -9,7 +9,7 @@ Requirements
 
 Database Setup
 
-1. Create a database under mysql named as 'orm' .
+1. Create a database under mysql named as 'notifier' .
 
 	CREATE DATABASE ORM;
 	
