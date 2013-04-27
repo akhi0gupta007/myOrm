@@ -47,6 +47,8 @@ public class Main {
 			
 			e.printStackTrace();
 		}
+		
+		manager.closeSession(session);
 	}
 
 }

@@ -4,7 +4,11 @@ import com.akhi.orm.connections.Commands;
 import com.akhi.orm.connections.ConnectionPool;
 import com.akhi.orm.connections.ConnectionPoolQueueElement;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
+import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -16,10 +20,25 @@ public class Manager implements Runnable {
 
 	private BlockingQueue<ConnectionPoolQueueElement> queue = new LinkedBlockingDeque<ConnectionPoolQueueElement>();
 
-	private ConnectionPool connectionPool = new ConnectionPool(
-			"jdbc:mysql://localhost:3306/notifier", "root", "9868");
+	private ConnectionPool connectionPool = null;
 
 	public Manager() {
+		Properties prop = new Properties();
+		try {
+			prop.load(getClass().getClassLoader().getResourceAsStream(
+					"db.properties"));
+
+			connectionPool = new ConnectionPool(prop.getProperty("url"),
+					prop.getProperty("user"), prop.getProperty("password"));
+
+			System.out.println(prop.getProperty("url"));
+		} catch (FileNotFoundException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
 		Thread main = new Thread(this);
 		main.start();
 	}
@@ -72,6 +91,7 @@ public class Manager implements Runnable {
 						if (con1 != null) {
 							connectionPool.returnConnectionToPool(con1);
 						}
+						System.out.println("Connection is closed");
 						break;
 					default:
 						break;
