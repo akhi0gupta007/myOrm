@@ -11,7 +11,7 @@ Database Setup
 
 1. Create a database under mysql named as 'notifier' .
 
-	CREATE DATABASE ORM;
+	CREATE DATABASE notifier;
 	
 2. Now Create a table named as employee.
 
